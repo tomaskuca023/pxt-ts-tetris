@@ -15,7 +15,6 @@ const dData: Display = [
     [false, false, false, false, false],
     [false, false, false, false, false]
 ]
-
 const dot: Piece = {
     x: 2, y: 0
 }
@@ -33,47 +32,36 @@ function refresh(display: Display):void {
     }
 }
 
-basic.forever(function () {
-    refresh(dData)
-    console.log(dData[0])
+let pieceExists: boolean = false
 
-})
-
-
-
-let blockFalling: boolean = false
-
-
-function block(display: Display):void {
-    blockFalling = true
-    let x: number = 2
-    for (let y: number = 0; y < 5; y++) {
- 
-        if (input.buttonIsPressed(Button.A)) {
-            x -=1
-            display [y-1][x+1] = false
-        }
-        if (input.buttonIsPressed(Button.B)) {
-            x +=1
-            display [y-1][x-1] = false
-        }
-        display[y][x] = true
-        if (y >= 1) {
-            display [y-1][x] = false
-        }
+function pieceMovement(display: Display, piece: Piece):void {
+    pieceExists = true
+    if (input.buttonIsPressed(Button.A)) {
+        display[piece.y][piece.x] = false
+        piece.x -= 1
+        display[piece.y][piece.x] = true
+        basic.pause(100)
+    }
+    if (input.buttonIsPressed(Button.B)) {
+        display[piece.y][piece.x] = false
+        piece.x += 1
+        display[piece.y][piece.x] = true
+        basic.pause(100)
+    }
+    for (let i: number = 0; i < 5; i++) {
+        display[piece.y][piece.x] = false
+        piece.y += 1
+        display[piece.y][piece.x] = true
         basic.pause(1000)
     }
-    blockFalling = false
+    pieceExists = false
 }
 
 
-
-basic.forever(function() {
-    
-if (!blockFalling) {
-    block(dData)
-}
-
-
+basic.forever(function () {
+    refresh(dData)
+    if (!pieceExists){
+        pieceMovement(dData, dot)
+    }
 
 })
