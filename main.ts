@@ -42,13 +42,12 @@ basic.forever(function () {
 
 
 let blockFalling: boolean = false
-let height: number = 5
 
 
 function block(display: Display):void {
     blockFalling = true
     let x: number = 2
-    for (let y: number = 0; y < height; y++) {
+    for (let y: number = 0; y < 5; y++) {
  
         if (input.buttonIsPressed(Button.A)) {
             x -=1
